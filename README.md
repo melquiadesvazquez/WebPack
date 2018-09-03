@@ -1,5 +1,3 @@
-# Scripts
-
 Para situar los scripts es mejor ponerlos en el head pero con el atributo async
 
 Instalamos un servidor 
