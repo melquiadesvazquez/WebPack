@@ -13,11 +13,10 @@ npm init -y
 npm i --save-dev webpack webpack-cli
 ```
 
-Ejecutamos webpack para crear la carpeta dist
-
+Creamos un archivo ./src/index.js con cualquier contenido javascript
 
 ```
-.\node_modules\.bin\webpack
+console.log('hola');
 ```
 
 Añadimos a package.json
