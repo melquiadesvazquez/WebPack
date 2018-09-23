@@ -1,47 +1,49 @@
-Para situar los scripts es mejor ponerlos en el head pero con el atributo async
+# MelPress
 
-Instalamos un servidor 
+Práctica 4 para el módulo de Frontend Avanzado con Webpack, ES6 y SASS para el Keepcoding Web Development Bootcamp
 
-```
-npm install http-server -g
-```
+## Install and configure plugins
 
-Y generamos los modulos de webpack
+Init Nodejs project
 
-```
+```sh
 npm init -y
+```
+
+Install Webpack on DEV
+
+```sh
 npm i --save-dev webpack webpack-cli
 ```
 
-Creamos un archivo ./src/index.js con cualquier contenido javascript
+Create ./src/index.js with any javascript content
 
+```javascript
+console.log('hello');
 ```
-console.log('hola');
-```
 
-Añadimos a package.json
+Add to package.json
 
-
-```
+```javascript
 "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack"
 },
 ```
 
-Ejecutamos webpack igual que anteriormente
+Run Webpack to create the  dist (production) folder
 
-```
-npm run webpack
+```sh
+npm run build
 ```
 
-Creamos en el root webpack.config.js
+Create in the root forder webpack.config.js
 
-```
+```javascript
 const path = require('path');
 
 module.exports =  {
-    // lo podriamos quitar porque es el valor por defecto
+    // we could remove it because is the default value
     entry: path.join(__dirname, 'src', 'index'),
     output: {
         filename: 'bundle[hash].js',
@@ -50,141 +52,45 @@ module.exports =  {
 };
 ```
 
-Instalamos el servidor de desarrollo de webpack
+Install the servers on DEV
 
-```
-npm i -D webpack-dev-server
+```sh
+npm i -D webpack-dev-server json-server
 ```
 
-Actualizamos package.json
+Update package.json
 
-```
+```javascript
 "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode=development",
-    "start": "webpack-dev-server --mode=development"
+    "build": "webpack --mode=production",
+    "start": "webpack-dev-server --mode=development --hot --inline",
 },
 ```
 
-Actualizamos webpack.config.js
+Install the following plugins on DEV
 
-```
-devServer: {
-    open: true, // abre el navegador
-    overlay: true, // errores en pantalla sin mirar la consola
-    port: 3000,
-    hot: true // refrescar automaticamente
-}
+```sh
+npm i -D clean-webpack-plugin webpack-merge css-loader ejs ejs-html-loader file-loader html-loader html-webpack-plugin image-webpack-loader mini-css-extract-plugin node-sass optimize-css-assets-webpack-plugin sass-loader style-loader uglifyjs-webpack-plugin
 ```
 
-Ejecutamos webpack 
+Install Eslint on DEV
 
-```
-npm run start
-```
-
-Como queremos meter index.html en la carpeta dist, instalamos el siguiente modulo
-
-```
-npm i -D html-webpack-plugin
+```sh
+npm i -D eslint
+npm i -D eslint-plugin-import
+npm i -D eslint-config-airbnb-base
 ```
 
-Actualizamos webpack.config.js
+Configure Eslint with popular > airbnb > no react > javascript > Y
 
-```
-var path = require('path');
-var HTMLWebpackPlugin = require('html-webpack-plugin');
-
-module.exports =  {
-    // lo podriamos quitar porque es el valor por defecto
-    entry: path.join(__dirname, 'src', 'index'),
-    output: {
-        filename: 'bundle[hash].js',
-        path: path.resolve(__dirname, 'dist')
-    },
-    devServer: {
-        open: true, // abre el navegador
-        overlay: true, // errores en pantalla sin mirar la consola
-        port: 3000,
-        hot: true // refrescar automaticamente
-    },
-    plugins: [
-        new HTMLWebpackPlugin(
-            {
-                title: 'Play',
-                template: path.join(__dirname, 'src', 'index.html'),
-                minify: {
-                    collapseWhitespace: true
-                }
-            }
-        )
-    ]
-};
-```
-
-Para usar ES6, como no funciona en todos los navegadores, se utiliza un transpilador (conversor a ES5) como Babel 
-
-```
-npm i -D @babel/core @babel/preset-env babel-loader
-```
-
-Creamos un archivo .babelrc
-
-```
-{
-  "presets": [
-    [
-      "@babel/preset-env"
-    ]
-  ]
-}
-
-```
-
-Añadimos a webpack.config.js
-
-```
-module: {
-    rule: [
-        {
-            test: /\.(js)$/,
-            exclude: /node_modules/,
-            use: 'babel-loader'
-        }
-    ]
-}
-```
-
-Volvemos a ejecutar el build
-
-```
-npm run build
-```
-
-Instalamos un loader de css
-
-```
-npm install --save-dev style-loader css-loader
-```
-
-Instalar eslint global
-
-```
-npm i -g eslint
-npm i -g eslint
-npm i -g eslint-plugin-import
-npm i -g eslint-config-airbnb-base
-```
-
-Configurar eslint para popular > airbnb > no react > javascript > Y
-
-```
+```sh
 eslint --init i
 ```
 
-Creamos un archivo .eslintrc.js
+Update .eslintrc.js
 
-```
+```javascript
 module.exports = {
     "extends": "airbnb-base",
     "plugins": [
@@ -202,16 +108,335 @@ module.exports = {
     "globals": {
       "document": false
     }
-    
 };
 ```
 
-Instalamos SASS
+Install the following plugins
 
+```sh
+npm i dotenv pubsub-js query-string@5 webpack-plugin-critical whatwg-fetch
 ```
-npm install --save-dev sass-loader node-sass
+
+Install Babel
+
+```sh
+npm i @babel/core @babel/preset-env @babel/polyfill babel-polyfill babel-loader
 ```
 
-Instalamos este modulo para hacer merge de configuraciones en el webpack.config.js
+Create in the root forder .babelrc
 
-npm i -D webpack-merge
+```javascript
+{
+  "presets": [
+    [
+      "@babel/preset-env"
+    ]
+  ]
+}
+```
+
+Install Surge as Global
+
+```sh
+npm install --global surge
+```
+
+Configure Surge and create a file named CNAME with your domain on it
+
+```sh
+surge
+```
+
+Create in the root forder CNAME with your domain on it
+
+```sh
+mydomain.surge.sh
+```
+
+Create in the root forder .gitignore
+
+```sh
+src/data/db.json
+node_modules
+dist
+.env
+```
+
+Create in the root forder .env
+
+```sh
+API_URL= http://localhost:8000/
+```
+
+Create in the root forder .env.example
+
+```sh
+API_URL=
+```
+
+Update package.json
+
+```javascript
+"scripts": {
+  "test": "echo \"Error: no test specified\" && exit 1",
+  "build": "webpack --mode=production",
+  "deploy": "webpack --mode=production && cp CNAME dist/CNAME && surge dist",
+  "eslint": "eslint",
+  "start": "webpack-dev-server --mode=development --hot --inline",
+  "server": "json-server --watch --port=8000 ./src/data/db.json"
+},
+```
+
+Update webpack.config.js
+
+```javascript
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const merge = require('webpack-merge');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CriticalPlugin } = require('webpack-plugin-critical');
+const dotenv = require('dotenv');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+```
+
+```javascript
+const commonConfig = {
+  entry: {
+    posts: ['@babel/polyfill', 'whatwg-fetch', path.join(__dirname, 'src', 'pages', 'posts', 'index')],
+    post: ['@babel/polyfill', 'whatwg-fetch', path.join(__dirname, 'src', 'pages', 'post', 'index')]
+  },
+  output: {
+    filename: '[name][hash].js',
+    path: path.resolve(__dirname, 'dist')
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': dotenv.parsed
+    }),
+    page({
+      title: 'Posts',
+      template: path.join(__dirname, 'src', 'pages', 'posts', 'index.html'),
+      chunks: ['posts'],
+      filename: path.resolve(__dirname, 'dist', 'index.html')
+    }),
+    page({
+      title: 'Post',
+      template: path.join(__dirname, 'src', 'pages', 'post', 'index.html'),
+      chunks: ['post'],
+      filename: path.resolve(__dirname, 'dist', 'post', 'index.html')
+    })
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.(js)$/,
+        exclude: /node_modules/,
+        use: 'babel-loader'
+      },
+      {
+        test: /\.(gif|png|jpe?g|svg)$/i,
+        use: [
+          'file-loader',
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              name: 'assets/[name].[hash].[ext]'
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(html|ejs)$/,
+        use: ['html-loader', 'ejs-html-loader']
+      }
+    ]
+  },
+  resolve: {
+    alias: {
+      components: path.resolve(__dirname, 'src', 'components'),
+      assets: path.resolve(__dirname, 'src', 'assets'),
+      styles: path.resolve(__dirname, 'src', 'styles'),
+      utils: path.resolve(__dirname, 'src', 'utils'),
+      data: path.resolve(__dirname, 'src', 'data'),
+      services: path.resolve(__dirname, 'src', 'services'),
+      pages: path.resolve(__dirname, 'src', 'pages')
+    }
+  },
+  devtool: 'source-map'
+};
+```
+
+```javascript
+const devConfig = {
+  module: {
+    rules: [
+      {
+        test: /\.scss$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader'
+        ]
+      }
+    ]
+  },
+  devServer: {
+    overlay: true,
+    port: 3000
+  }
+};
+```
+
+```javascript
+const prodConfig = {
+  optimization: {
+    minimizer: [
+      new OptimizeCSSAssetsPlugin(
+        {
+          cssProcessorOptions: { map: { inline: false } }
+        }
+      ),
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true // set to true if you want JS source maps
+      })
+    ]
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name].[hash].css'
+    }),
+    new CleanWebpackPlugin(['dist']),
+    new CriticalPlugin({
+      src: path.join(__dirname, 'src', 'pages', 'posts', 'index.html'),
+      inline: true,
+      minify: true,
+      dest: path.join(__dirname, 'dist', 'index.html')
+    })
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.scss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader'
+        ]
+      }
+    ]
+  }
+};
+```
+
+```javascript
+module.exports = (env, argv) => (
+  argv.mode === 'development'
+    ? merge(commonConfig, devConfig)
+    : merge(commonConfig, prodConfig)
+);
+```
+
+## Create file structure
+
+Inside the src folder create the following structure:
+
+* assets
+* components  
+  * footer
+  * header
+  * image
+  * post
+  * posts
+
+* data
+* pages
+  * partials
+  * post
+  * posts
+  
+* services
+* styles
+* utils
+
+Inside the styles folder create:
+
+* utils.scss
+* settings.scss
+* layout.scss
+* _normalize.scss
+* base.scss
+* main.scss
+
+Inside the components folder create:
+
+* footer
+  * footer-styles.scss
+  
+* header
+  * header-styles.scss
+  * header-component.js
+
+* image
+  * image-styles.scss
+  * image-component.js
+
+* post
+  * post-styles.scss
+  * post-component.js
+
+* post-detail
+  * post-detail-styles.scss
+  * post-detail-component.js
+
+* posts
+  * posts-styles.scss
+  * posts-component.js
+
+Inside the data folder create:
+
+* db.json
+* db.sample.json
+  
+Inside the pages folder create:
+
+* partials
+  * head.ejs
+  * header.ejs
+  * footer.ejs
+
+* post
+  * index.html
+  * index.js
+
+* posts
+  * index.html
+  * index.js
+
+Inside the services folder create:
+
+* API-service.js
+* post-service.js
+
+Inside the utils folder create:
+
+* html.js
+
+Delete the initial index.js
+
+## Run the project on DEV
+
+Run the json server
+
+```sh
+npm run server
+```
+
+Run the webpack DEV server
+
+```sh
+npm run start
+```
