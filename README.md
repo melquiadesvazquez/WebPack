@@ -1,4 +1,4 @@
-## Install and configure plugins
+## Install and configure modules
 
 Init Nodejs project
 
